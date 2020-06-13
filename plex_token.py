@@ -3,7 +3,7 @@
 
 import http.client, urllib.request, urllib.parse, urllib.error, base64, user_info
 
-base64string = base64.encodestring(('%s:%s' % (user_info.plex_username, user_info.plex_password)).encode()).decode().replace('\n', '')
+base64string = base64.encodebytes(('%s:%s' % (user_info.plex_username, user_info.plex_password)).encode()).decode().replace('\n', '')
 txdata = ""
 
 headers={'Authorization': "Basic %s" % base64string,
