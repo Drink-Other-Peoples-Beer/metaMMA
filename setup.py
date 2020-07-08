@@ -8,7 +8,7 @@ import event_info
 import info_check
 import user_info
 
-ts = "[" + time.strftime("%Y-%m-%d %H:%M:%S") + "] "  # timestamp string used at beginning of log file
+ts = "[" + time.strftime(user_info.DATEFORMAT) + "] "  # timestamp string used at beginning of log file
 dic = user_info.dicen
 
 i_dic = {v: k for k, v in dic.items()}

@@ -12,12 +12,13 @@ from distutils.version import StrictVersion
 from shutil import move
 
 import info_check
+import user_info
 
 if info_check.info_updated == 0 or not os.path.exists(info_check.mma_direct):
     exit()
 if os.path.isfile(info_check.mma_direct + "log.txt"):
     logging.basicConfig(filename=info_check.mma_direct + "log.txt", level=logging.DEBUG,
-                        format='[%(asctime)s] %(message)s', datefmt="%Y-%m-%d %H:%M:%S")
+                        format='[%(asctime)s] %(message)s', datefmt=user_info.DATEFORMAT)
     logger = logging.getLogger(__name__)
 buf = "\n                      "  # buffer space for mult-line log entries
 
@@ -32,7 +33,7 @@ def exit_stats():
     filedata = f.read()
     f.close()
     newdata = re.sub(r'\[.*last time updater\.py successfully exited.*[0-9]', '[' + time.strftime(
-        "%Y-%m-%d %H:%M:%S") + '] - last time updater.py successfully exited. --Latest: v' + version, filedata)
+        user_info.DATEFORMAT) + '] - last time updater.py successfully exited. --Latest: v' + version, filedata)
     f = open(info_check.mma_direct + 'stats.txt', 'w')
     f.write(newdata)
     f.close()
@@ -48,7 +49,7 @@ f = open(info_check.mma_direct + 'stats.txt', 'r')
 filedata = f.read()
 f.close()
 newdata = re.sub(r'\[.*last time updater\.py was started.*[0-9]', '[' + time.strftime(
-    "%Y-%m-%d %H:%M:%S") + '] - last time updater.py was started. ---------Current: v' + version, filedata)
+    user_info.DATEFORMAT) + '] - last time updater.py was started. ---------Current: v' + version, filedata)
 f = open(info_check.mma_direct + 'stats.txt', 'w')
 f.write(newdata)
 f.close()
@@ -66,21 +67,21 @@ for try_count in range(0, 2):
         if running_script_name == 'mover.py':
             if try_count == 1:
                 log.write("\n[" + time.strftime(
-                    "%Y-%m-%d %H:%M:%S") + "] An attempt to run updater.py was made. However, mover.py is currently running. Waiting 3 minutes and trying again.")
+                    user_info.DATEFORMAT) + "] An attempt to run updater.py was made. However, mover.py is currently running. Waiting 3 minutes and trying again.")
                 log.close()
                 time.sleep(200)
             if try_count == 2:
                 log.write("\n[" + time.strftime(
-                    "%Y-%m-%d %H:%M:%S") + "] A second attempt to run updater.py was made. However, mover.py is still currently running. Trying again tomorrow.")
+                    user_info.DATEFORMAT) + "] A second attempt to run updater.py was made. However, mover.py is still currently running. Trying again tomorrow.")
                 log.close()
                 exit()
         elif running_script_name == 'updater.py':
             log.write("\n[" + time.strftime(
-                "%Y-%m-%d %H:%M:%S") + "] An attempt to run updater.py was made. However, updater.py is currently running. The script will stop running now.")
+                user_info.DATEFORMAT) + "] An attempt to run updater.py was made. However, updater.py is currently running. The script will stop running now.")
             log.close()
             exit()
 with open(info_check.mma_direct + 'mover.running', "w") as running:
-    running.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] updater.py')
+    running.write('[' + time.strftime(user_info.DATEFORMAT) + '] updater.py')
     running.close()
 
 try:

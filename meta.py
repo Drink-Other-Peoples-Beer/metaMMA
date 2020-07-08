@@ -32,7 +32,7 @@ import user_info
 dic = user_info.dicen
 
 logging.basicConfig(filename=info_check.mma_direct + "log.txt", level=logging.DEBUG,
-                    format='[%(asctime)s] %(message)s', datefmt="%Y-%m-%d %H:%M:%S")
+                    format='[%(asctime)s] %(message)s', datefmt=user_info.DATEFORMAT)
 logger = logging.getLogger(__name__)
 buf = "\n                      "  # buffer space for mult-line log entries
 today_date_object = datetime.now()
@@ -49,7 +49,7 @@ def exit_stats():
     filedata = f.read()
     f.close()
     newdata = re.sub(r'.*last time %s successfully exited.' % os.path.basename(__file__), "[" + time.strftime(
-        "%Y-%m-%d %H:%M:%S") + "] - last time %s successfully exited." % os.path.basename(__file__), filedata)
+        user_info.DATEFORMAT) + "] - last time %s successfully exited." % os.path.basename(__file__), filedata)
     f = open(info_check.mma_direct + 'stats.txt', 'w')
     f.write(newdata)
     f.close()
@@ -59,18 +59,18 @@ def exit_stats():
 if os.path.isfile(info_check.mma_direct + 'meta.running'):
     log = open(info_check.mma_direct + 'execution-log.txt', 'a')
     log.write("\n[" + time.strftime(
-        "%Y-%m-%d %H:%M:%S") + "] An attempt to run meta.py was made." + buf + "However, meta.py is currently running because meta.running is present. The script will stop running now.")
+        user_info.DATEFORMAT) + "] An attempt to run meta.py was made." + buf + "However, meta.py is currently running because meta.running is present. The script will stop running now.")
     log.close()
     exit_stats()
 else:
     with open(info_check.mma_direct + 'meta.running', "w") as running:
-        running.write("[" + time.strftime("%Y-%m-%d %H:%M:%S") + "] meta.py started running.")
+        running.write("[" + time.strftime(user_info.DATEFORMAT) + "] meta.py started running.")
         running.close()
     f = open(info_check.mma_direct + 'stats.txt', 'r')
     filedata = f.read()
     f.close()
     newdata = re.sub(r'.*last time meta.py was started.',
-                     "[" + time.strftime("%Y-%m-%d %H:%M:%S") + "] - last time meta.py was started.", filedata)
+                     "[" + time.strftime(user_info.DATEFORMAT) + "] - last time meta.py was started.", filedata)
     f = open(info_check.mma_direct + 'stats.txt', 'w')
     f.write(newdata)
     f.close()

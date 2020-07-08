@@ -37,7 +37,7 @@ import plex_token
 import user_info
 
 logging.basicConfig(filename=info_check.mma_direct + "log.txt", level=logging.DEBUG,
-                    format='[%(asctime)s] %(message)s', datefmt="%Y-%m-%d %H:%M:%S")
+                    format='[%(asctime)s] %(message)s', datefmt=user_info.DATEFORMAT)
 logger = logging.getLogger(__name__)
 buf = "\n                      "  # buffer space for mult-line log entries
 dic = user_info.dicen
@@ -57,7 +57,7 @@ def exit_stats():
     filedata = f.read()
     f.close()
     newdata = re.sub(r'.*last time %s successfully exited.' % os.path.basename(__file__), '[' + time.strftime(
-        "%Y-%m-%d %H:%M:%S") + '] - last time %s successfully exited.' % os.path.basename(__file__), filedata)
+        user_info.DATEFORMAT) + '] - last time %s successfully exited.' % os.path.basename(__file__), filedata)
     f = open(info_check.mma_direct + 'stats.txt', 'w')
     f.write(newdata)
     f.close()
@@ -103,19 +103,20 @@ if os.path.isfile(info_check.mma_direct + 'mover.running'):
     running.close()
     log = open(info_check.mma_direct + 'execution-log.txt', 'a')
     log.write("\n[" + time.strftime(
-        "%Y-%m-%d %H:%M:%S") + "] An attempt to run mover.py was made. However, " + running_script[
-                                                                                    22:] + " is currently running. The script will stop running now.")
+        user_info.DATEFORMAT) + "] An attempt to run mover.py was made. However, " + running_script[
+                                                                                     22:] + " is currently running. The script will stop running now.")
     log.close()
     exit()
 else:
     with open(info_check.mma_direct + 'mover.running', "w") as running:
-        running.write("[" + time.strftime("%Y-%m-%d %H:%M:%S") + "] mover.py")
+        running.write("[" + time.strftime(user_info.DATEFORMAT) + "] mover.py")
         running.close()
     f = open(info_check.mma_direct + 'stats.txt', 'r')
     filedata = f.read()
     f.close()
     newdata = re.sub(r'.*last time mover.py was started.',
-                     '[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] - last time mover.py was started.', filedata)
+                     '[' + time.strftime(user_info.DATEFORMAT) + '] - last time mover.py was started.',
+                     filedata)
     f = open(info_check.mma_direct + 'stats.txt', 'w')
     f.write(newdata)
     f.close()
@@ -145,7 +146,7 @@ if 4 < hour_int < 5:
                     raise
         with open(filename, "w") as log:
             log.write("[" + time.strftime(
-                "%Y-%m-%d %H:%M:%S") + "] New log.txt file created. For the previous 3 weeks of logs, open previous-log.txt.")
+                user_info.DATEFORMAT) + "] New log.txt file created. For the previous 3 weeks of logs, open previous-log.txt.")
             log.close()
 
 video_holder_filename = []  # this list will contain all the "holder" filenames that are waiting for a video file to replace them

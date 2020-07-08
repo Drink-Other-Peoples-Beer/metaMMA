@@ -38,4 +38,4 @@ DIC = {'INV': "INVICTA", 'BEL': "BELLATOR", 'UFC': "UFC", 'WSOF': "WSOF", 'TTN':
 dicen = {'Invicta FC': 'INV', 'Bellator': 'BEL', 'UFC': 'UFC', 'WSOF': 'WSOF', 'Titan FC': 'TTN',
          'Legacy Fighting Alliance': 'LFA', 'ONE Championship': 'ONE', 'Glory': 'GLR'}
 
-datefmt = "%Y-%m-%d %H:%M:%S"
+DATEFORMAT = "%Y-%m-%d %H:%M:%S"

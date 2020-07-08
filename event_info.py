@@ -15,7 +15,7 @@ import user_info
 
 if os.path.isfile(info_check.mma_direct + "log.txt"):
     logging.basicConfig(filename=info_check.mma_direct + "log.txt", level=logging.DEBUG,
-                        format='[%(asctime)s] %(message)s', datefmt="%Y-%m-%d %H:%M:%S")
+                        format='[%(asctime)s] %(message)s', datefmt=user_info.DATEFORMAT)
     logger = logging.getLogger(__name__)
 buf = "\n                      "  # buffer space for mult-line log entries
 dic = user_info.dicen
