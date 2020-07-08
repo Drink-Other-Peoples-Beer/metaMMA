@@ -17,7 +17,6 @@ if platform.system() == 'Windows' or platform.system() == 'windows':
 else:
     os.system("python3 info_check.py")
     os.system("python3 plex_token.py")
-meta_dir = info_check.meta
 vdata = open(info_check.meta + 'version.txt', 'r')
 v = vdata.read()
 v = v.strip('\n')

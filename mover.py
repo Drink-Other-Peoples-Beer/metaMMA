@@ -153,7 +153,7 @@ video_holder_path = []  # this list will contain the path to the "holder" files
 video_holder_path_and_file = []  # this list contains the whole path and filname of the "holder" file (will be used to delete the holder file after the video file that is replacing it is moved)
 
 for root, dirnames, filenames in os.walk(
-        user_info.mma_DESTINATION):  # this directory is where all new events directories will be created
+        user_info.MMA_DESTINATION):  # this directory is where all new events directories will be created
     for filename in fnmatch.filter(filenames,
                                    '*.avi'):  # look for all 'holder' files that were created with each new event directory
         video_holder_path_and_file.append(os.path.join(root, filename))
