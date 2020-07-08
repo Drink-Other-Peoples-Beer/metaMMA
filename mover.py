@@ -40,7 +40,7 @@ logging.basicConfig(filename=info_check.mma_direct + "log.txt", level=logging.DE
                     format='[%(asctime)s] %(message)s', datefmt="%Y-%m-%d %H:%M:%S")
 logger = logging.getLogger(__name__)
 buf = "\n                      "  # buffer space for mult-line log entries
-dic = user_info.DIC
+dic = user_info.dicen
 i_dic = {v: k for k, v in dic.items()}
 
 if info_check.info_updated == 0 or not os.path.exists(info_check.mma_direct):

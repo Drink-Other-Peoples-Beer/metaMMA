@@ -29,7 +29,8 @@ import event_info
 import info_check
 import user_info
 
-dic = user_info.DIC
+dic = user_info.dicen
+
 logging.basicConfig(filename=info_check.mma_direct + "log.txt", level=logging.DEBUG,
                     format='[%(asctime)s] %(message)s', datefmt="%Y-%m-%d %H:%M:%S")
 logger = logging.getLogger(__name__)

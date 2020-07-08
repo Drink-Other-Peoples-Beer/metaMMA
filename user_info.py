@@ -34,3 +34,8 @@ MMA_LIB = getenv("MMA_LIB")
 
 DIC = {'INV': "INVICTA", 'BEL': "BELLATOR", 'UFC': "UFC", 'WSOF': "WSOF", 'TTN': "TITAN", 'LFA': "LEGACY",
        'ONE': "ONE", 'GLR': "GLORY"}
+
+dicen = {'Invicta FC': 'INV', 'Bellator': 'BEL', 'UFC': 'UFC', 'WSOF': 'WSOF', 'Titan FC': 'TTN',
+         'Legacy Fighting Alliance': 'LFA', 'ONE Championship': 'ONE', 'Glory': 'GLR'}
+
+datefmt = "%Y-%m-%d %H:%M:%S"

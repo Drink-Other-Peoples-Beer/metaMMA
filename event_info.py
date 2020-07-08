@@ -18,7 +18,8 @@ if os.path.isfile(info_check.mma_direct + "log.txt"):
                         format='[%(asctime)s] %(message)s', datefmt="%Y-%m-%d %H:%M:%S")
     logger = logging.getLogger(__name__)
 buf = "\n                      "  # buffer space for mult-line log entries
-dic = user_info.DIC
+dic = user_info.dicen
+
 i_dic = {v: k for k, v in dic.items()}
 today_date_object = datetime.now()
 today_str = today_date_object.strftime('%Y-%m-%d')
@@ -31,28 +32,28 @@ class Event:
     def future(self, birth):
         time.sleep(random.randint(10, 20))
         logger.info("Opening and reading wikipedia page containing " + i_dic[self.promo] + " events.")
-        if self.promo == 'ufc':
+        if self.promo == 'UFC':
             wiki = urllib.request.urlopen('https://en.wikipedia.org/wiki/List_of_UFC_events').read().decode(
                 'utf-8')
-        elif self.promo == 'inv':
+        elif self.promo == 'INV':
             wiki = urllib.request.urlopen(
                 'https://en.wikipedia.org/wiki/Invicta_Fighting_Championships').read().decode('utf-8')
-        elif self.promo == 'bel':
+        elif self.promo == 'BEL':
             wiki = urllib.request.urlopen(
                 'https://en.wikipedia.org/wiki/List_of_Bellator_events').read().decode('utf-8')
-        elif self.promo == 'wsof':
+        elif self.promo == 'WSOF':
             wiki = urllib.request.urlopen('https://en.wikipedia.org/wiki/List_of_WSOF_events').read().decode(
                 'utf-8')
-        elif self.promo == 'ttn':
+        elif self.promo == 'TTN':
             wiki = urllib.request.urlopen('https://en.wikipedia.org/wiki/Titan_FC_events').read().decode(
                 'utf-8')
-        elif self.promo == 'lfa':
+        elif self.promo == 'LFA':
             wiki = urllib.request.urlopen(
                 'https://en.wikipedia.org/wiki/Legacy_Fighting_Alliance').read().decode('utf-8')
-        elif self.promo == 'one':
+        elif self.promo == 'ONE':
             wiki = urllib.request.urlopen(
                 'https://en.wikipedia.org/wiki/List_of_ONE_Championship_events').read().decode('utf-8')
-        elif self.promo == 'glr':
+        elif self.promo == 'GLR':
             wiki = urllib.request.urlopen('https://en.wikipedia.org/wiki/Glory_(kickboxing)').read().decode(
                 'utf-8')
 
@@ -104,13 +105,13 @@ class Event:
 
     def basic_info(self, date_of_future_event, scheduled_events_table_html):
         if user_info.MMA == 1:
-            destination = user_info.mma_DESTINATION
+            destination = user_info.MMA_DESTINATION
         else:
             destination = eval("user_info." + self.promo + "_DESTINATION")
-        if self.promo == 'glr':
+        if self.promo == 'GLR':
             cols = 6
             row_num = 4
-        elif self.promo == "bel":
+        elif self.promo == "BEL":
             cols = 5
             row_num = 4
         else:
@@ -119,7 +120,8 @@ class Event:
         if date_of_future_event != '2050-01-01':
             today_events_plus = re.split(date_of_future_event, scheduled_events_table_html)[1]
         else: today_events_plus = scheduled_events_table_html
-        if self.promo =="ufc": number_of_events_today = len(re.findall("</tr>\n<tr>",today_events_plus))
+        if self.promo == "UFC":
+            number_of_events_today = len(re.findall("</tr>\n<tr>", today_events_plus))
         else: number_of_events_today = 1
         logger.info("According to the wikipedia page, there is "+str(number_of_events_today)+" "+i_dic[self.promo]+" event taking place today."+buf+"Extracting information about event title, date, venue and location.")
         for g in range(1,number_of_events_today+1):
@@ -160,43 +162,56 @@ class Event:
             logger.info("Information about event title, date, venue and location successfully extracted."+buf+"Attempting to create the directory named"+buf+os.path.join(destination+title,''))
 
             try: # creates a directory for the .nfo file to be saved to
-                os.makedirs(os.path.join(destination+title,''))
+                os.makedirs(os.path.join(destination + title, ''))
             except OSError:
-                if not os.path.isdir(os.path.join(destination+title,'')):
+                if not os.path.isdir(os.path.join(destination + title, '')):
                     raise
-            logger.info("Created the directory named"+buf+os.path.join(destination+title,'')+buf+"Attempting to create .nfo file.")
+            logger.info("Created the directory named" + buf + os.path.join(destination + title,
+                                                                           '') + buf + "Attempting to create .nfo file.")
 
-            nfo = open(os.path.join(destination+title,'')+title+".nfo",'w')
-            nfo.write("<movie>\n<title>Soon - "+title+"</title>\n<genre>Sports</genre>\n<releasedate>"+date+"</releasedate>\n<studio>"+venue+" - "+location+"</studio>\n<plot>")
+            nfo = open(os.path.join(destination + title, '') + title + ".nfo", 'w')
+            nfo.write(
+                "<movie>\n<title>Soon - " + title + "</title>\n<genre>Sports</genre>\n<releasedate>" + date + "</releasedate>\n<studio>" + venue + " - " + location + "</studio>\n<plot>")
             nfo.close()
             page_title = title
-            if self.promo == 'inv': searchable_title=title[0:13].lower(); page_title = title
-            elif self.promo == 'bel': searchable_title=title.lower(); page_title = title
-            elif self.promo == 'one': searchable_title=title[0:19].lower(); page_title=re.sub(' \d\d','',title)
-            elif self.promo == 'glr': searchable_title=title[0:8].lower(); page_title = title
-            elif self.promo == 'ttn': searchable_title=title[0:11].lower(); page_title = title[0:11]
-            elif self.promo == 'lfa': num = re.search(r'\d+', title).group(); searchable_title= 'lfa '+str(num); page_title = title
-            elif self.promo == 'wsof':
-                page_title = re.sub('WSOF','World Series of Fighting',title)
-                if len(re.findall('Global Championship',title))>0:
-                    searchable_title=title[:24].lower()
+            if self.promo == 'INV':
+                searchable_title = title[0:13].lower(); page_title = title
+            elif self.promo == 'BEL':
+                searchable_title = title.lower(); page_title = title
+            elif self.promo == 'ONE':
+                searchable_title = title[0:19].lower(); page_title = re.sub(' \d\d', '', title)
+            elif self.promo == 'GLR':
+                searchable_title = title[0:8].lower(); page_title = title
+            elif self.promo == 'TTN':
+                searchable_title = title[0:11].lower(); page_title = title[0:11]
+            elif self.promo == 'LFA':
+                num = re.search(r'\d+', title).group(); searchable_title = 'lfa ' + str(num); page_title = title
+            elif self.promo == 'WSOF':
+                page_title = re.sub('WSOF', 'World Series of Fighting', title)
+                if len(re.findall('Global Championship', title)) > 0:
+                    searchable_title = title[:24].lower()
                 else:
-                    searchable_title=title[:7].lower()
+                    searchable_title = title[:7].lower()
             if ind_wiki == 1:
-                logger.info("Info file "+buf+os.path.join(destination+title,'')+title+".nfo"+buf+"was created."+buf+"Attempting to open Wikipedia page containing thefor fight card information for this event.")
+                logger.info("Info file " + buf + os.path.join(destination + title,
+                                                              '') + title + ".nfo" + buf + "was created." + buf + "Attempting to open Wikipedia page containing thefor fight card information for this event.")
                 try:
                     mma_event_page_end_of_url = re.split('\"', title_html)[1]
-                    mma_event_page_url = "https://en.wikipedia.org" + mma_event_page_end_of_url # entire url for individual event page or page containing individual event on wikipedia page
+                    mma_event_page_url = "https://en.wikipedia.org" + mma_event_page_end_of_url  # entire url for individual event page or page containing individual event on wikipedia page
                     page_with_mma_event = urllib.request.urlopen(mma_event_page_url).read().decode('utf-8')
                     page_split_at_correct_event = re.compile("b>"+page_title).split(page_with_mma_event)[1]
-                    if self.promo == "ufc":
-                        is_alt_title = re.findall('known as',page_split_at_correct_event) # determine if there is an alternative title
+                    if self.promo == "UFC":
+                        is_alt_title = re.findall('known as',
+                                                  page_split_at_correct_event)  # determine if there is an alternative title
                         if len(is_alt_title) > 0:
-                            logger.info("There is an \"also known as\" title on the Wikipedia page. The alternative title will be used for file matching.")
-                            alternative_title3 = re.compile('.*?known\sas.*?<i><b>').split(page_split_at_correct_event)[1]
+                            logger.info(
+                                "There is an \"also known as\" title on the Wikipedia page. The alternative title will be used for file matching.")
+                            alternative_title3 = \
+                            re.compile('.*?known\sas.*?<i><b>').split(page_split_at_correct_event)[1]
                             alternative_title2 = re.compile('<').split(alternative_title3)[0]
                             alternative_title = alternative_title2.lower()
-                            approved_words = ['ufc', 'fight', 'night','fox', 'versus', 'fuel', 'fx', 'ultimate', 'fighter', 'finale']
+                            approved_words = ['ufc', 'fight', 'night', 'fox', 'versus', 'fuel', 'fx',
+                                              'ultimate', 'fighter', 'finale']
                             alternative_title_list = alternative_title.split()
                             fight_number_list = re.findall('[0-9][0-9]+', alternative_title)
                             if len(fight_number_list) == 1:
@@ -237,7 +252,7 @@ class Event:
                         else:
                             card_title_chunk1 = re.compile("<b>").split(card_title_chunk)[1]
                             card_title = card_title_chunk1[:-4]
-                            if self.promo == 'bel' and len(re.findall('ickboxing',card_title)) > 0: kbox = 1
+                            if self.promo == 'BEL' and len(re.findall('ickboxing', card_title)) > 0: kbox = 1
 
                         nfo = open(os.path.join(destination+title,'')+title+".nfo",'a')
                         nfo.write(card_title+"\n")
@@ -292,16 +307,18 @@ class Event:
                         feat_dir = os.path.join(os.path.join(os.path.join(destination+title,''),'Featurette'),'')
                         os.makedirs(feat_dir)
                         logger.info("Featurette directory"+buf+feat_dir+buf+"was created.")
-                        if self.promo == 'glr':
-                            prelim_holder = open(feat_dir+'Soon - Superfight Series.avi','w')
-                            prelim_holder.write(searchable_title+" superfight")
+                        if self.promo == 'GLR':
+                            prelim_holder = open(feat_dir + 'Soon - Superfight Series.avi', 'w')
+                            prelim_holder.write(searchable_title + " superfight")
                             prelim_holder.close()
-                            logger.info("Preliminary card video placeholder file"+buf+feat_dir+"Soon - Superfight Series.avi"+buf+"was created.")
-                        elif self.promo == 'bel' and kbox == 1:
-                            prelim_holder = open(feat_dir+'Soon - Bellator Kickboxing.avi','w')
-                            prelim_holder.write(searchable_title+" kickboxing")
+                            logger.info(
+                                "Preliminary card video placeholder file" + buf + feat_dir + "Soon - Superfight Series.avi" + buf + "was created.")
+                        elif self.promo == 'BEL' and kbox == 1:
+                            prelim_holder = open(feat_dir + 'Soon - Bellator Kickboxing.avi', 'w')
+                            prelim_holder.write(searchable_title + " kickboxing")
                             prelim_holder.close()
-                            logger.info("Preliminary card video placeholder file"+buf+feat_dir+"Soon - Bellator Kickboxing.avi"+buf+"was created.")
+                            logger.info(
+                                "Preliminary card video placeholder file" + buf + feat_dir + "Soon - Bellator Kickboxing.avi" + buf + "was created.")
                         else:
                             prelim_holder = open(feat_dir+'Soon - Prelims.avi','w')
                             prelim_holder.write(searchable_title+" prelim")
@@ -321,7 +338,8 @@ class Event:
                 nfo = open(os.path.join(destination+title,'')+title+".nfo",'a')
                 nfo.write("MMA Event</plot>\n</movie>")
                 nfo.close()
-                if self.promo != 'lfa': self.poster_fetch(destination, title,searchable_title,'error')
+                if self.promo != 'LFA':
+                    self.poster_fetch(destination, title, searchable_title, 'error')
                 else: self.poster_fetch(destination,title,searchable_title,'lfa')
 
             main_holder = open(os.path.join(destination+title,'')+searchable_title+".avi",'w')
@@ -353,45 +371,57 @@ class Event:
 
     def poster_fetch(self,destination, title, searchable_title,page_with_mma_event):
         if page_with_mma_event != 'error':
-            if self.promo == "ufc":
+            if self.promo == "UFC":
                 try:
                     poster_url_part_plus = re.split('/wiki/File:', page_with_mma_event)[1]
                     poster_url_end = re.split('\"', poster_url_part_plus)[0]
-                    poster_page = urllib.request.urlopen('https://en.wikipedia.org/wiki/File:'+poster_url_end).read().decode('utf-8')
-                    poster_image_url_plus = re.split('//upload.wikimedia.org/wikipedia/',poster_page)[1]
-                    poster_image_url = re.split('\"',poster_image_url_plus)[0]
-                    with urllib.request.urlopen('https://upload.wikimedia.org/wikipedia/'+poster_image_url) as response, open(os.path.join(os.path.join(destination+title,''),searchable_title+'.jpg'), 'wb') as out_file:
-                        data = response.read() # a `bytes` object
+                    poster_page = urllib.request.urlopen(
+                        'https://en.wikipedia.org/wiki/File:' + poster_url_end).read().decode('utf-8')
+                    poster_image_url_plus = re.split('//upload.wikimedia.org/wikipedia/', poster_page)[1]
+                    poster_image_url = re.split('\"', poster_image_url_plus)[0]
+                    with urllib.request.urlopen(
+                            'https://upload.wikimedia.org/wikipedia/' + poster_image_url) as response, open(
+                            os.path.join(os.path.join(destination + title, ''), searchable_title + '.jpg'),
+                            'wb') as out_file:
+                        data = response.read()  # a `bytes` object
                         out_file.write(data)
-                    logger.info("Poster file "+buf+os.path.join(os.path.join(destination+title,''),searchable_title+'.jpg')+buf+"was created.")
+                    logger.info("Poster file " + buf + os.path.join(os.path.join(destination + title, ''),
+                                                                    searchable_title + '.jpg') + buf + "was created.")
                 except (IndexError, ValueError, urllib.error.HTTPError):
                     logger.info("ERROR: URL for webpage containing "+title+" event poster is not where expected."+buf+"Attempting to use locally stored generic poster.")
                     self.local_poster(destination, title, searchable_title)
-            elif self.promo == 'inv':
+            elif self.promo == 'INV':
                 event_num = searchable_title[-2:]
-                url_of_page_with_poster = os.path.join('http://www.invictafc.com/portfolio-item/invicta-fc-'+event_num,'')
+                url_of_page_with_poster = os.path.join(
+                    'http://www.invictafc.com/portfolio-item/invicta-fc-' + event_num, '')
                 try:
                     poster_page = urllib.request.urlopen(url_of_page_with_poster).read().decode('utf-8')
-                    poster_image_url_plus2 = re.split('class="flex_column av_one_third',poster_page)[1]
-                    poster_image_url_plus = re.split('(?<=.jpg)\'',poster_image_url_plus2,1)[0]
-                    poster_image_url = re.split('href=\'',poster_image_url_plus)[1]
-                    with urllib.request.urlopen(poster_image_url) as response, open(os.path.join(os.path.join(destination+title,''),searchable_title+'.jpg'), 'wb') as out_file:
-                        data = response.read() # a `bytes` object
+                    poster_image_url_plus2 = re.split('class="flex_column av_one_third', poster_page)[1]
+                    poster_image_url_plus = re.split('(?<=.jpg)\'', poster_image_url_plus2, 1)[0]
+                    poster_image_url = re.split('href=\'', poster_image_url_plus)[1]
+                    with urllib.request.urlopen(poster_image_url) as response, open(
+                            os.path.join(os.path.join(destination + title, ''), searchable_title + '.jpg'),
+                            'wb') as out_file:
+                        data = response.read()  # a `bytes` object
                         out_file.write(data)
-                    logger.info("Poster file "+buf+os.path.join(os.path.join(destination+title,''),searchable_title+'.jpg')+buf+"was created.")
-                except (IndexError,ValueError, urllib.error.HTTPError):
-                    logger.info("ERROR: URL for webpage containing "+title+" event poster is not where expected."+buf+"Attempting to use locally stored generic poster.")
+                    logger.info("Poster file " + buf + os.path.join(os.path.join(destination + title, ''),
+                                                                    searchable_title + '.jpg') + buf + "was created.")
+                except (IndexError, ValueError, urllib.error.HTTPError):
+                    logger.info(
+                        "ERROR: URL for webpage containing " + title + " event poster is not where expected." + buf + "Attempting to use locally stored generic poster.")
                     self.local_poster(destination, title, searchable_title)
-            elif self.promo == 'lfa':
+            elif self.promo == 'LFA':
                 l_title = title.lower()
-                event_number = re.findall('[0-9]+',searchable_title)[0]
-                url_part1 = re.sub(' ','-',re.sub('\.','',re.sub(':','',l_title)))
-                url_part2 = re.sub('legacy-fighting-alliance','lfa',url_part1)
+                event_number = re.findall('[0-9]+', searchable_title)[0]
+                url_part1 = re.sub(' ', '-', re.sub('\.', '', re.sub(':', '', l_title)))
+                url_part2 = re.sub('legacy-fighting-alliance', 'lfa', url_part1)
                 try:
-                    poster_page = urllib.request.urlopen('http://lfafighting.com/event/'+url_part1).read().decode('utf-8')
+                    poster_page = urllib.request.urlopen(
+                        'http://lfafighting.com/event/' + url_part1).read().decode('utf-8')
                 except urllib.error.HTTPError:
                     lfa_fail = 1
-                    logger.info("http://lfafighting.com/event/"+url_part1+" doesn't exist. Trying second url")
+                    logger.info(
+                        "http://lfafighting.com/event/" + url_part1 + " doesn't exist. Trying second url")
                 else:
                     lfa_fail = 0
                 if lfa_fail == 1:
