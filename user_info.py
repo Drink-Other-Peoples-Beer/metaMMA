@@ -39,3 +39,8 @@ dicen = {'Invicta FC': 'INV', 'Bellator': 'BEL', 'UFC': 'UFC', 'WSOF': 'WSOF', '
          'Legacy Fighting Alliance': 'LFA', 'ONE Championship': 'ONE', 'Glory': 'GLR'}
 
 DATEFORMAT = "%Y-%m-%d %H:%M:%S"
+
+EXECUTION_LOG_FILE = 'execution-log.txt'
+EVENT_DATES_FILE = 'event_dates.txt'
+STATS_FILE = 'stats.txt'
+LOG_FILE = 'log.txt'

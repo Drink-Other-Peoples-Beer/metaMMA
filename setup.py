@@ -26,8 +26,8 @@ version = v[1:]
 
 if not os.path.exists(info_check.mma_direct):
     os.makedirs(info_check.mma_direct)
-if not os.path.isfile(info_check.mma_direct + 'execution-log.txt'):
-    elog = open(info_check.mma_direct + 'execution-log.txt', 'w')
+if not os.path.isfile(info_check.mma_direct + user_info.EXECUTION_LOG_FILE):
+    elog = open(info_check.mma_direct + user_info.EXECUTION_LOG_FILE, 'w')
     elog.write(
         ts + "This file logs whenever meta.py or mover.py was attempting to execute while it had not finished running.")
     elog.close()
@@ -38,13 +38,13 @@ if not os.path.isfile(info_check.mma_direct + "log.txt"):
     log.write(
         ts + "Set-up started. Created .MMA directory, temporary directory, execution-log.txt, and log.txt.")
     log.close()
-if not os.path.isfile(info_check.mma_direct + 'stats.txt'):
+if not os.path.isfile(info_check.mma_direct + user_info.STATS_FILE):
     stats = open(info_check.mma_direct + "stats.txt", "w")
     stats.write(
         "---------------------------Stats since " + ts + "---------------------------\n[2000-00-00 00:00:00] - last time meta.py was started.\n[2000-00-00 00:00:00] - last time meta.py successfully exited.\n\n[2000-00-00 00:00:00] - last time mover.py was started.\n[2000-00-00 00:00:00] - last time mover.py successfully exited.\n\n[2000-00-00 00:00:00] - last time updater.py was started. ---------Current: v" + version + "\n[2000-00-00 00:00:00] - last time updater.py successfully exited. --Latest: v" + version + "\n----------------------------------------------------------------------------------------\n\n0: total number of MMA events scraped\n0: total number of MMA video files moved")
     stats.close()
-if not os.path.isfile(info_check.mma_direct + 'event_dates.txt'):
-    dates = open(info_check.mma_direct + 'event_dates.txt', 'w')
+if not os.path.isfile(info_check.mma_direct + user_info.EVENT_DATES_FILE):
+    dates = open(info_check.mma_direct + user_info.EVENT_DATES_FILE, 'w')
     dates.write('----------Dates of upcoming MMA events----------')
     dates.close()
 if not os.path.exists(user_info.DONE_DIR):
@@ -56,16 +56,16 @@ for x in range(0, len(info_check.promolist)):
     if user_info.MMA == 0:
         if not os.path.exists(eval('user_info.' + info_check.promolist[x] + '_DESTINATION')):
             os.makedirs(eval('user_info.' + info_check.promolist[x] + '_DESTINATION'))
-    s = open(info_check.mma_direct + 'stats.txt', 'r')
+    s = open(info_check.mma_direct + user_info.STATS_FILE, 'r')
     stats = s.read()
     stats_exist = re.findall(i_dic[info_check.promolist[x]], stats)
     s.close()
     if len(stats_exist) < 1:
-        edit = open(info_check.mma_direct + 'stats.txt', 'a')
+        edit = open(info_check.mma_direct + user_info.STATS_FILE, 'a')
         edit.write('\n0: ' + i_dic[info_check.promolist[x]] + ' events scraped\n0: ' + i_dic[
             info_check.promolist[x]] + ' video files moved')
         edit.close()
-    d = open(info_check.mma_direct + 'event_dates.txt', 'r')
+    d = open(info_check.mma_direct + user_info.EVENT_DATES_FILE, 'r')
     dates = d.read()
     promo_date_exists = re.findall(i_dic[info_check.promolist[x]], dates)
     d.close()

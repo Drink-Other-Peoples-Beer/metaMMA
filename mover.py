@@ -53,12 +53,12 @@ def endit():
 
 
 def exit_stats():
-    f = open(info_check.mma_direct + 'stats.txt', 'r')
+    f = open(info_check.mma_direct + user_info.STATS_FILE, 'r')
     filedata = f.read()
     f.close()
     newdata = re.sub(r'.*last time %s successfully exited.' % os.path.basename(__file__), '[' + time.strftime(
         user_info.DATEFORMAT) + '] - last time %s successfully exited.' % os.path.basename(__file__), filedata)
-    f = open(info_check.mma_direct + 'stats.txt', 'w')
+    f = open(info_check.mma_direct + user_info.STATS_FILE, 'w')
     f.write(newdata)
     f.close()
     endit()
@@ -81,7 +81,7 @@ def stat_updater(stat_name):
     Args:
         stat_name:
     """
-    for line in fileinput.input(info_check.mma_direct + 'stats.txt'):
+    for line in fileinput.input(info_check.mma_direct + user_info.STATS_FILE):
         temp = sys.stdout
         sys.stdout = open(info_check.mma_direct + 'stats2.txt', 'a')
         if (i_dic[stat_name] in line and 'moved' in line) or ('total' in line and 'moved' in line):
@@ -93,15 +93,15 @@ def stat_updater(stat_name):
             print(line, end='')
         sys.stdout.close()
         sys.stdout = temp
-    os.remove(info_check.mma_direct + 'stats.txt')
-    os.rename(info_check.mma_direct + 'stats2.txt', info_check.mma_direct + 'stats.txt')
+    os.remove(info_check.mma_direct + user_info.STATS_FILE)
+    os.rename(info_check.mma_direct + 'stats2.txt', info_check.mma_direct + user_info.STATS_FILE)
 
 
 if os.path.isfile(info_check.mma_direct + 'mover.running'):
     running = open(info_check.mma_direct + 'mover.running', 'r')
     running_script = running.read()
     running.close()
-    log = open(info_check.mma_direct + 'execution-log.txt', 'a')
+    log = open(info_check.mma_direct + user_info.EXECUTION_LOG_FILE, 'a')
     log.write("\n[" + time.strftime(
         user_info.DATEFORMAT) + "] An attempt to run mover.py was made. However, " + running_script[
                                                                                      22:] + " is currently running. The script will stop running now.")
@@ -111,20 +111,20 @@ else:
     with open(info_check.mma_direct + 'mover.running', "w") as running:
         running.write("[" + time.strftime(user_info.DATEFORMAT) + "] mover.py")
         running.close()
-    f = open(info_check.mma_direct + 'stats.txt', 'r')
+    f = open(info_check.mma_direct + user_info.STATS_FILE, 'r')
     filedata = f.read()
     f.close()
     newdata = re.sub(r'.*last time mover.py was started.',
                      '[' + time.strftime(user_info.DATEFORMAT) + '] - last time mover.py was started.',
                      filedata)
-    f = open(info_check.mma_direct + 'stats.txt', 'w')
+    f = open(info_check.mma_direct + user_info.STATS_FILE, 'w')
     f.write(newdata)
     f.close()
 
 hour = time.strftime("%H")
 hour_int = int(hour)
 if 4 < hour_int < 5:
-    with open(info_check.mma_direct + 'log.txt', 'r') as myfile:
+    with open(info_check.mma_direct + user_info.LOG_FILE, 'r') as myfile:
         earliest_date = myfile.read()[1:20]
         myfile.close()
     earliest_date_object = datetime.strptime(earliest_date, '%Y-%m-%d %H:%M:%S')
@@ -136,7 +136,7 @@ if 4 < hour_int < 5:
             info_check.mma_direct + 'previous-log.txt')  # check to see if the "previous-log.txt" file exists
         if len(previous_log_holder_list) == 1:
             os.remove(info_check.mma_direct + 'previous-log.txt')
-        move(info_check.mma_direct + 'log.txt', info_check.mma_direct + 'previous-log.txt')
+        move(info_check.mma_direct + user_info.LOG_FILE, info_check.mma_direct + 'previous-log.txt')
         filename = info_check.mma_direct + "log.txt"
         if not os.path.exists(os.path.dirname(filename)):
             try:

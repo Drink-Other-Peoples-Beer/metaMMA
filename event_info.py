@@ -91,15 +91,16 @@ class Event:
 
     def date_updater(self,date_of_future_event,birth):
         if birth == 'setup':
-            edit = open(info_check.mma_direct+'event_dates.txt','a')
+            edit = open(info_check.mma_direct + user_info.EVENT_DATES_FILE, 'a')
             edit.write('\n'+date_of_future_event+'.'+i_dic[self.promo])
             edit.close()
         else:
-            f = open(info_check.mma_direct+'event_dates.txt','r')
+            f = open(info_check.mma_direct + user_info.EVENT_DATES_FILE, 'r')
             filedata = f.read()
             f.close()
-            newdata = re.sub(r'.*%s' % i_dic[self.promo],date_of_future_event+'.%s' % i_dic[self.promo],filedata)
-            f = open(info_check.mma_direct+'event_dates.txt','w')
+            newdata = re.sub(r'.*%s' % i_dic[self.promo], date_of_future_event + '.%s' % i_dic[self.promo],
+                             filedata)
+            f = open(info_check.mma_direct + user_info.EVENT_DATES_FILE, 'w')
             f.write(newdata)
             f.close()
 
@@ -347,27 +348,28 @@ class Event:
             main_holder.close()
             logger.info("Main card video placeholder file"+buf+os.path.join(os.path.join(destination+title,''),searchable_title)+".avi"+buf+"was created.")
             time.sleep(5)
-        f = open(info_check.mma_direct+'event_dates.txt','r')
+        f = open(info_check.mma_direct + user_info.EVENT_DATES_FILE, 'r')
         filedata = f.read()
         f.close()
-        newdata = re.sub(r'.*%s' % i_dic[self.promo],date_of_future_event+'.%s' % i_dic[self.promo],filedata)
-        f = open(info_check.mma_direct+'event_dates.txt','w')
+        newdata = re.sub(r'.*%s' % i_dic[self.promo], date_of_future_event + '.%s' % i_dic[self.promo],
+                         filedata)
+        f = open(info_check.mma_direct + user_info.EVENT_DATES_FILE, 'w')
         f.write(newdata)
         f.close()
-        for line in fileinput.input(info_check.mma_direct+'stats.txt'):
+        for line in fileinput.input(info_check.mma_direct + user_info.STATS_FILE):
             temp = sys.stdout
-            sys.stdout = open(info_check.mma_direct+'stats2.txt', 'a')
-            if (i_dic[self.promo] in line and 'scraped' in line) or ('total'in line and 'scraped' in line):
-                tmp = re.findall('[0-9]+',line)
-                num = str(int(str(tmp[0]))+1)
-                new = re.sub(r'[0-9]+',num, line)
-                print(new,end='')
+            sys.stdout = open(info_check.mma_direct + 'stats2.txt', 'a')
+            if (i_dic[self.promo] in line and 'scraped' in line) or ('total' in line and 'scraped' in line):
+                tmp = re.findall('[0-9]+', line)
+                num = str(int(str(tmp[0])) + 1)
+                new = re.sub(r'[0-9]+', num, line)
+                print(new, end='')
             else:
-                print(line,end='')
+                print(line, end='')
             sys.stdout.close()
             sys.stdout = temp
-        os.remove(info_check.mma_direct+'stats.txt')
-        os.rename(info_check.mma_direct+'stats2.txt',info_check.mma_direct+'stats.txt')
+        os.remove(info_check.mma_direct + user_info.STATS_FILE)
+        os.rename(info_check.mma_direct + 'stats2.txt', info_check.mma_direct + user_info.STATS_FILE)
 
     def poster_fetch(self,destination, title, searchable_title,page_with_mma_event):
         if page_with_mma_event != 'error':

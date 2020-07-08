@@ -29,12 +29,12 @@ def endit():
 
 
 def exit_stats():
-    f = open(info_check.mma_direct + 'stats.txt', 'r')
+    f = open(info_check.mma_direct + user_info.STATS_FILE, 'r')
     filedata = f.read()
     f.close()
     newdata = re.sub(r'\[.*last time updater\.py successfully exited.*[0-9]', '[' + time.strftime(
         user_info.DATEFORMAT) + '] - last time updater.py successfully exited. --Latest: v' + version, filedata)
-    f = open(info_check.mma_direct + 'stats.txt', 'w')
+    f = open(info_check.mma_direct + user_info.STATS_FILE, 'w')
     f.write(newdata)
     f.close()
     endit()
@@ -45,12 +45,12 @@ v = vdata.read()
 version = re.sub('\n', '', v[1:])
 vdata.close()
 
-f = open(info_check.mma_direct + 'stats.txt', 'r')
+f = open(info_check.mma_direct + user_info.STATS_FILE, 'r')
 filedata = f.read()
 f.close()
 newdata = re.sub(r'\[.*last time updater\.py was started.*[0-9]', '[' + time.strftime(
     user_info.DATEFORMAT) + '] - last time updater.py was started. ---------Current: v' + version, filedata)
-f = open(info_check.mma_direct + 'stats.txt', 'w')
+f = open(info_check.mma_direct + user_info.STATS_FILE, 'w')
 f.write(newdata)
 f.close()
 
@@ -63,7 +63,7 @@ for try_count in range(0, 2):
         running_script = running.read()
         running.close()
         running_script_name = running_script[22:]
-        log = open(info_check.mma_direct + 'execution-log.txt', 'a')
+        log = open(info_check.mma_direct + user_info.EXECUTION_LOG_FILE, 'a')
         if running_script_name == 'mover.py':
             if try_count == 1:
                 log.write("\n[" + time.strftime(

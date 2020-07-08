@@ -45,19 +45,19 @@ def endit():
 
 
 def exit_stats():
-    f = open(info_check.mma_direct + 'stats.txt', 'r')
+    f = open(info_check.mma_direct + user_info.STATS_FILE, 'r')
     filedata = f.read()
     f.close()
     newdata = re.sub(r'.*last time %s successfully exited.' % os.path.basename(__file__), "[" + time.strftime(
         user_info.DATEFORMAT) + "] - last time %s successfully exited." % os.path.basename(__file__), filedata)
-    f = open(info_check.mma_direct + 'stats.txt', 'w')
+    f = open(info_check.mma_direct + user_info.STATS_FILE, 'w')
     f.write(newdata)
     f.close()
     endit()
 
 
 if os.path.isfile(info_check.mma_direct + 'meta.running'):
-    log = open(info_check.mma_direct + 'execution-log.txt', 'a')
+    log = open(info_check.mma_direct + user_info.EXECUTION_LOG_FILE, 'a')
     log.write("\n[" + time.strftime(
         user_info.DATEFORMAT) + "] An attempt to run meta.py was made." + buf + "However, meta.py is currently running because meta.running is present. The script will stop running now.")
     log.close()
@@ -66,12 +66,12 @@ else:
     with open(info_check.mma_direct + 'meta.running', "w") as running:
         running.write("[" + time.strftime(user_info.DATEFORMAT) + "] meta.py started running.")
         running.close()
-    f = open(info_check.mma_direct + 'stats.txt', 'r')
+    f = open(info_check.mma_direct + user_info.STATS_FILE, 'r')
     filedata = f.read()
     f.close()
     newdata = re.sub(r'.*last time meta.py was started.',
                      "[" + time.strftime(user_info.DATEFORMAT) + "] - last time meta.py was started.", filedata)
-    f = open(info_check.mma_direct + 'stats.txt', 'w')
+    f = open(info_check.mma_direct + user_info.STATS_FILE, 'w')
     f.write(newdata)
     f.close()
 if platform.system() == 'Windows' or platform.system() == 'windows':
@@ -82,7 +82,7 @@ else:
 promos_with_events_today = []
 promos_without_future_dates = []
 far_away = []
-f = open(info_check.mma_direct + 'event_dates.txt', "r")
+f = open(info_check.mma_direct + user_info.EVENT_DATES_FILE, "r")
 lines = []
 for line in f:
     if line.startswith('-----'):
