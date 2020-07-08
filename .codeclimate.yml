@@ -1,0 +1,24 @@
+version: "2"
+plugins:
+  bandit:
+    enabled: true
+  pep8:
+    enabled: true
+  radon:
+    enabled: true
+  pylint:
+    enabled: true
+  sonar-python:
+    enabled: true
+  editorconfig:
+    enabled: true
+  git-legal:
+    enabled: true
+  gnu-complexity:
+    enabled: true
+  fixme:
+    enabled: true
+  markdownlint:
+    enabled: true
+  shellcheck:
+    enabled: true

@@ -31,3 +31,6 @@ PLEX_PASSWORD = getenv("PLEX_PASSWORD")
 PLEX_IP = getenv("PLEX_IP")
 REFRESH_KODI = getenv("REFRESH_KODI", 0)
 MMA_LIB = getenv("MMA_LIB")
+
+DIC = {'INV': "INVICTA", 'BEL': "BELLATOR", 'UFC': "UFC", 'WSOF': "WSOF", 'TTN': "TITAN", 'LFA': "LEGACY",
+       'ONE': "ONE", 'GLR': "GLORY"}

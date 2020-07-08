@@ -1,40 +1,60 @@
 #!/usr/bin/env python
-import info_check
-import user_info
-import urllib.request
 import fileinput
-import sys
+import logging
 import os
-import time
-import re
 import random
+import re
+import sys
+import time
+import urllib.request
 from datetime import datetime
 from shutil import copyfile
-import logging
 
-if os.path.isfile(info_check.mma_direct+"log.txt"):
-    logging.basicConfig(filename=info_check.mma_direct+"log.txt",level=logging.DEBUG,format='[%(asctime)s] %(message)s', datefmt="%Y-%m-%d %H:%M:%S")
+import info_check
+import user_info
+
+if os.path.isfile(info_check.mma_direct + "log.txt"):
+    logging.basicConfig(filename=info_check.mma_direct + "log.txt", level=logging.DEBUG,
+                        format='[%(asctime)s] %(message)s', datefmt="%Y-%m-%d %H:%M:%S")
     logger = logging.getLogger(__name__)
-buf = "\n                      " # buffer space for mult-line log entries
-dic = {'Invicta FC':'inv','Bellator':'bel','UFC':'ufc','WSOF':'wsof','Titan FC':'ttn','Legacy Fighting Alliance':'lfa','ONE Championship':'one','Glory':'glr'}
+buf = "\n                      "  # buffer space for mult-line log entries
+dic = user_info.DIC
 i_dic = {v: k for k, v in dic.items()}
 today_date_object = datetime.now()
 today_str = today_date_object.strftime('%Y-%m-%d')
+
+
 class Event:
-    def __init__(self,promo):
+    def __init__(self, promo):
         self.promo = promo
 
-    def future(self,birth):
-        time.sleep(random.randint(10,20))
-        logger.info("Opening and reading wikipedia page containing "+i_dic[self.promo]+" events.")
-        if self.promo == 'ufc':wiki = urllib.request.urlopen('https://en.wikipedia.org/wiki/List_of_UFC_events').read().decode('utf-8')
-        elif self.promo == 'inv':wiki = urllib.request.urlopen('https://en.wikipedia.org/wiki/Invicta_Fighting_Championships').read().decode('utf-8')
-        elif self.promo == 'bel':wiki = urllib.request.urlopen('https://en.wikipedia.org/wiki/List_of_Bellator_events').read().decode('utf-8')
-        elif self.promo == 'wsof':wiki = urllib.request.urlopen('https://en.wikipedia.org/wiki/List_of_WSOF_events').read().decode('utf-8')
-        elif self.promo == 'ttn':wiki = urllib.request.urlopen('https://en.wikipedia.org/wiki/Titan_FC_events').read().decode('utf-8')
-        elif self.promo == 'lfa':wiki = urllib.request.urlopen('https://en.wikipedia.org/wiki/Legacy_Fighting_Alliance').read().decode('utf-8')
-        elif self.promo == 'one':wiki = urllib.request.urlopen('https://en.wikipedia.org/wiki/List_of_ONE_Championship_events').read().decode('utf-8')
-        elif self.promo == 'glr':wiki = urllib.request.urlopen('https://en.wikipedia.org/wiki/Glory_(kickboxing)').read().decode('utf-8')
+    def future(self, birth):
+        time.sleep(random.randint(10, 20))
+        logger.info("Opening and reading wikipedia page containing " + i_dic[self.promo] + " events.")
+        if self.promo == 'ufc':
+            wiki = urllib.request.urlopen('https://en.wikipedia.org/wiki/List_of_UFC_events').read().decode(
+                'utf-8')
+        elif self.promo == 'inv':
+            wiki = urllib.request.urlopen(
+                'https://en.wikipedia.org/wiki/Invicta_Fighting_Championships').read().decode('utf-8')
+        elif self.promo == 'bel':
+            wiki = urllib.request.urlopen(
+                'https://en.wikipedia.org/wiki/List_of_Bellator_events').read().decode('utf-8')
+        elif self.promo == 'wsof':
+            wiki = urllib.request.urlopen('https://en.wikipedia.org/wiki/List_of_WSOF_events').read().decode(
+                'utf-8')
+        elif self.promo == 'ttn':
+            wiki = urllib.request.urlopen('https://en.wikipedia.org/wiki/Titan_FC_events').read().decode(
+                'utf-8')
+        elif self.promo == 'lfa':
+            wiki = urllib.request.urlopen(
+                'https://en.wikipedia.org/wiki/Legacy_Fighting_Alliance').read().decode('utf-8')
+        elif self.promo == 'one':
+            wiki = urllib.request.urlopen(
+                'https://en.wikipedia.org/wiki/List_of_ONE_Championship_events').read().decode('utf-8')
+        elif self.promo == 'glr':
+            wiki = urllib.request.urlopen('https://en.wikipedia.org/wiki/Glory_(kickboxing)').read().decode(
+                'utf-8')
 
         scheduled_events_plus_bottom_of_page = wiki.split("<th scope=\"col\">Location</th>")[1] # this statement takes the string that is the whole wikipedia page html and splits it after the position of "location" in the "scheduled events" table
         scheduled_events_table_html = scheduled_events_plus_bottom_of_page.split('</table>')[0]
