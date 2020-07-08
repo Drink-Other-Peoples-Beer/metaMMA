@@ -16,7 +16,7 @@ if user_info.MMA_DESTINATION == '/media/QQQ/MMA/':
 elif user_info.MMA != 1:
     for x in range(0, len(
             promolist)):  # if all promotions will have different destination directories, make sure they are specified
-        if eval('user_info.' + promolist[x] + '_destination') == os.path.join('/media/QQQ/' + dic[promolist[x]],
+        if eval('user_info.' + promolist[x] + '_DESTINATION') == os.path.join('/media/QQQ/' + dic[promolist[x]],
                                                                               ''):
             print('Please update the ' + dic[promolist[x]] + ' destination directory.')
             exit()

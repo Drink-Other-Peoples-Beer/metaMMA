@@ -103,18 +103,21 @@ class Event:
             f.close()
 
     def basic_info(self, date_of_future_event, scheduled_events_table_html):
-        if user_info.MMA == 1: destination = user_info.mma_destination
-        else: destination = eval("user_info."+self.promo+"_destination")
-        if self.promo == 'glr' :
+        if user_info.MMA == 1:
+            destination = user_info.mma_DESTINATION
+        else:
+            destination = eval("user_info." + self.promo + "_DESTINATION")
+        if self.promo == 'glr':
             cols = 6
             row_num = 4
-        elif self.promo == "bel" :
+        elif self.promo == "bel":
             cols = 5
             row_num = 4
         else:
             cols = 4
             row_num = 3
-        if date_of_future_event != '2050-01-01': today_events_plus = re.split(date_of_future_event,scheduled_events_table_html)[1]
+        if date_of_future_event != '2050-01-01':
+            today_events_plus = re.split(date_of_future_event, scheduled_events_table_html)[1]
         else: today_events_plus = scheduled_events_table_html
         if self.promo =="ufc": number_of_events_today = len(re.findall("</tr>\n<tr>",today_events_plus))
         else: number_of_events_today = 1

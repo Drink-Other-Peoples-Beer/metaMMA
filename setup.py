@@ -54,8 +54,8 @@ if not os.path.exists(user_info.MMA_DESTINATION):
 
 for x in range(0, len(info_check.promolist)):
     if user_info.MMA == 0:
-        if not os.path.exists(eval('user_info.' + info_check.promolist[x] + '_destination')):
-            os.makedirs(eval('user_info.' + info_check.promolist[x] + '_destination'))
+        if not os.path.exists(eval('user_info.' + info_check.promolist[x] + '_DESTINATION')):
+            os.makedirs(eval('user_info.' + info_check.promolist[x] + '_DESTINATION'))
     s = open(info_check.mma_direct + 'stats.txt', 'r')
     stats = s.read()
     stats_exist = re.findall(i_dic[info_check.promolist[x]], stats)
